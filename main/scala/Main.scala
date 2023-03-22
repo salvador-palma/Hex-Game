@@ -15,14 +15,14 @@ object Main{
 
 
   }
-  @tailrec
+  //@tailrec
   def update(boardState: BoardState){
     boardState.drawGameState
-    print("Keep playing? Y/N")
+    println("Keep playing? Y/N")
     readLine match{case "N" => return
     case _ => }
     val newBoardState : BoardState = boardState
-    update(newBoardState)
+    //update(newBoardState)
   }
 
 
