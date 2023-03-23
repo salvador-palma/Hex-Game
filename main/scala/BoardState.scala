@@ -6,12 +6,17 @@ import scala.annotation.tailrec
 
 case class BoardState(board:Board){
   def drawGameState():Unit = BoardState.drawBoard(board)
+  def playGameState(coords:(Int,Int), piece : Cell):BoardState = BoardState.inputBoard(board,coords, piece)
 
 }
 
 object BoardState{
   def defineBoard(n:Integer):Board=List.fill(n)(List.fill(n)(Cells.Empty))
 
+  def inputBoard(board: Board, coords:(Int,Int), piece:Cell):BoardState={
+    val b : Board = board
+    BoardState(b.updated(coords._1, b(coords._1).updated(coords._2, piece)))
+  }
   def drawBoard(board: Board): Unit = {
     println(s" ${Blue}*${Reset}  " * board.size)
     printRows()

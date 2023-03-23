@@ -9,7 +9,7 @@ object Main{
   val Blue = "\u001b[34m"
   val Reset = "\u001b[0m"
   def main(args: Array[String]): Unit = {
-    print("Hello World")
+
 
     val boardState:BoardState = BoardState(BoardState.defineBoard(5))
     update(boardState)
@@ -22,8 +22,12 @@ object Main{
     println("Keep playing? Y/N")
     readLine match{case "N" => return
     case _ => }
-    val newBoardState : BoardState = boardState
-    //update(newBoardState)
+    println("X coord:")
+    val x = readInt
+    println("Y coord:")
+    val y = readInt
+    val newBoardState : BoardState = boardState.playGameState((y,x), Cells.Blue)
+    update(newBoardState)
   }
 
 
