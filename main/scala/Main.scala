@@ -12,13 +12,11 @@ object Main{
 
 
     val boardState:BoardState = BoardState(BoardState.defineBoard(5))
-    val t1 = System.nanoTime
-    println(boardState.drawGameStateFold)
-    println((System.nanoTime - t1) / 1e9d)
-    val t2 = System.nanoTime
-    boardState.drawGameState
-    println((System.nanoTime - t2) / 1e9d)
-    //update(boardState)
+
+    //boardState.drawGameState
+
+    update(boardState)
+
 
 
   }
@@ -26,9 +24,15 @@ object Main{
     boardState.drawGameState
     val (x,y) = boardState.getCheckInput
     val newBoardState : BoardState = boardState.playGameState((y,x), Cells.Blue)
+    boardState.hasWinner
     //Get CPU Coords
     //Play CPU Coords
     //Check for Win
+    /*
+    newBoardState.hasWinner match{
+      case Some(x) => println("Winner Player!")
+      case None=>
+    }*/
     update(newBoardState)
   }
 

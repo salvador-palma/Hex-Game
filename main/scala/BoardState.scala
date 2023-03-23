@@ -10,6 +10,7 @@ case class BoardState(board:Board){
   def drawGameStateFold():String = BoardState.drawBoardFold(board)
   def playGameState(coords:(Int,Int), piece : Cell):BoardState = BoardState.inputBoard(board,coords, piece)
   def getCheckInput():(Int,Int)=BoardState.retrieveInput(board)
+  def hasWinner():Unit=BoardState.cellSet(board)
 }
 
 object BoardState{
@@ -17,21 +18,20 @@ object BoardState{
   val RedAst = s" ${Red}*${Reset}  "
   def defineBoard(n:Integer):Board=List.fill(n)(List.fill(n)(Cells.Empty))
   @tailrec def retrieveInput(board: Board):(Int,Int)={
-    println("Where to play?")
-    val str = readLine.trim
-    if(str=="Q"){println("Thank you for playing!"); sys.exit(0)}
     try{
-      val s = str.split(" ").map(x => x.toInt)
-      if (inBounds(s, board) && isEmptySlot(s, board)) return (s(0), s(1))
-      throw new IllegalArgumentException
+      println("Where to play?")
+      readLine.trim match {
+        case "Q" => println("Thank you for playing!"); sys.exit(0)
+        case str => val s = str.split(" ").map(x => x.toInt); if (inBounds(s, board) && isEmptySlot(s, board)) (s(0), s(1)) else throw new IllegalArgumentException
+      }
     }catch{
       case _ => println(s"${Main.Red}Invalid Input or Coordinate already marked, try again.${Main.Reset}")
+        retrieveInput(board)
     }
-    retrieveInput(board)
   }
   def inputBoard(board: Board, coords:(Int,Int), piece:Cell):BoardState={
     val b : Board = board
-    BoardState(b.updated(coords._1, b(coords._1).updated(coords._2, piece)))
+    BoardState(b.updated(coords._1 - 1, b(coords._1-1).updated(coords._2-1, piece)))
   }
 
   def drawBoard(board: Board): Unit = {
@@ -59,8 +59,28 @@ object BoardState{
     s"${" " * board.size}${BlueAst*board.size}"
   }
 
-  private def inBounds(coords : Array[Int], board: Board)=coords(0) <= board.size && coords(1) <= board.size && coords(0)>0 && coords(1)>0
-  private def isEmptySlot(coords:Array[Int], board:Board)=board(coords(1))(coords(0)).equals(Cells.Empty)
+  private def inBounds(coords : Array[Int], board: Board):Boolean=coords(0) <= board.size && coords(1) <= board.size && coords(0)>0 && coords(1)>0
+  private def isEmptySlot(coords:Array[Int], board:Board):Boolean=board(coords(1)-1)(coords(0)-1).equals(Cells.Empty)
+
+  def hasWinner(board: Board):Option[Cell]={
+
+    Some(Cells.Blue)
+  }
+  def cellSet(board:Board):Unit={
+    val s:Set[(Int,Int)]=Set[(Int,Int)]((-1,-1))
+    s.concat(initHead())
+    println(s)
+    @tailrec def initHead(acc:Set[(Int,Int)]=Set[(Int,Int)](), index:Int = 0):Set[(Int,Int)]={
+      if (index >= board.size){return acc}
+      if( board(0)(index).equals(Cells.Blue)){
+        initHead(acc.incl((0,index)), index + 1 )
+      }else{
+        initHead(acc, index + 1 )
+      }
+    }
+
+  }
+
 
 }
 
