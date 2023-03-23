@@ -19,13 +19,7 @@ object Main{
   //@tailrec
   def update(boardState: BoardState){
     boardState.drawGameState
-    println("Keep playing? Y/N")
-    readLine match{case "N" => return
-    case _ => }
-    println("X coord:")
-    val x = readInt
-    println("Y coord:")
-    val y = readInt
+    val (x,y) = boardState.getCheckInput
     val newBoardState : BoardState = boardState.playGameState((y,x), Cells.Blue)
     update(newBoardState)
   }
