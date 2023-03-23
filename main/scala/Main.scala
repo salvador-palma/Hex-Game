@@ -9,6 +9,7 @@ object Main{
   val Blue = "\u001b[34m"
   val Reset = "\u001b[0m"
   def main(args: Array[String]): Unit = {
+    print("Hello World")
 
     val boardState:BoardState = BoardState(BoardState.defineBoard(5))
     update(boardState)
