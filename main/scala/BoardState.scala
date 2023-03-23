@@ -16,10 +16,14 @@ object BoardState{
   @tailrec def retrieveInput(board: Board):(Int,Int)={
     println("Where to play?")
     val str = readLine.trim
-    val s = str.split(" ").map(x=> x.toInt)
-    if(s(0) < board.size && s(1) < board.size) return (s(0), s(1))
-    if(str=="Q")sys.exit(0)
-    println("Invalid Input")
+    if(str=="Q"){println("Thank you for playing!"); sys.exit(0)}
+    try{
+      val s = str.split(" ").map(x => x.toInt)
+      if (inBounds(s, board) && isEmptySlot(s, board)) return (s(0), s(1))
+      throw new IllegalArgumentException
+    }catch{
+      case _ => println(s"${Main.Red}Invalid Input or Coordinate already marked, try again.${Main.Reset}")
+    }
     retrieveInput(board)
   }
   def inputBoard(board: Board, coords:(Int,Int), piece:Cell):BoardState={
@@ -42,9 +46,11 @@ object BoardState{
       println(s" ${Red}*${Reset}")
       if (column + 1 < board.size) println((" " * (column + 2)) + ("\\ / " * (board.size - 1)) + "\\")
       printRows(column + 1)
-
     }
   }
+
+  private def inBounds(coords : Array[Int], board: Board)=coords(0) <= board.size && coords(1) <= board.size && coords(0)>0 && coords(1)>0
+  private def isEmptySlot(coords:Array[Int], board:Board)=board(coords(1))(coords(0)).equals(Cells.Empty)
 
 }
 

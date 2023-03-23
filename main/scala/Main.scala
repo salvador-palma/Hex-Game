@@ -16,15 +16,15 @@ object Main{
 
 
   }
-  //@tailrec
-  def update(boardState: BoardState){
+  @tailrec def update(boardState: BoardState){
     boardState.drawGameState
     val (x,y) = boardState.getCheckInput
     val newBoardState : BoardState = boardState.playGameState((y,x), Cells.Blue)
+    //Get CPU Coords
+    //Play CPU Coords
+    //Check for Win
     update(newBoardState)
   }
-
-
 
   }
 
