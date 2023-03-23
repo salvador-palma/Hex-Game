@@ -12,7 +12,12 @@ object Main{
 
 
     val boardState:BoardState = BoardState(BoardState.defineBoard(5))
-    boardState.drawGameState()
+    val t1 = System.nanoTime
+    boardState.drawGameState
+    println((System.nanoTime - t1) / 1e9d)
+    val t2 = System.nanoTime
+    println(boardState.drawGameStateFold)
+    println((System.nanoTime - t2) / 1e9d)
     //update(boardState)
 
 
