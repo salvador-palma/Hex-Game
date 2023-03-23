@@ -12,7 +12,8 @@ object Main{
 
 
     val boardState:BoardState = BoardState(BoardState.defineBoard(5))
-    update(boardState)
+    boardState.drawGameState()
+    //update(boardState)
 
 
   }

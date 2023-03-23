@@ -6,7 +6,7 @@ import scala.annotation.tailrec
 import scala.io.StdIn.readLine
 
 case class BoardState(board:Board){
-  def drawGameState():Unit = BoardState.drawBoard(board)
+  def drawGameState():Unit = BoardState.drawBoardFold(board)
   def playGameState(coords:(Int,Int), piece : Cell):BoardState = BoardState.inputBoard(board,coords, piece)
   def getCheckInput():(Int,Int)=BoardState.retrieveInput(board)
 }
@@ -49,6 +49,14 @@ object BoardState{
     }
   }
 
+  def drawBoardFold(board:Board):Unit={
+    println(s" ${Blue}*${Reset}  " * board.size)
+      print((List.range(0, board.size) foldRight "")((row,c)=> {
+        (" " * row) + s"${Red}*${Reset} " + (List.range(0,board(row).size) foldRight "")((item, acc)=>{ board(row)(item) + " - " + acc}).dropRight(3) + s" ${Red}*${Reset}\n" +  (" " * (row + 2)) + ("\\ / " * (board.size - 1)) + "\\\n" +c;
+    }).dropRight((board.size-1)*5 + 3))
+    println((" " * (board.size))+ s" ${Blue}*${Reset}  " * board.size)
+
+  }
   private def inBounds(coords : Array[Int], board: Board)=coords(0) <= board.size && coords(1) <= board.size && coords(0)>0 && coords(1)>0
   private def isEmptySlot(coords:Array[Int], board:Board)=board(coords(1))(coords(0)).equals(Cells.Empty)
 
