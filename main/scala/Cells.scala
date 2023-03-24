@@ -8,6 +8,9 @@ object Cells extends Enumeration {
   val Empty = Value(".")
   val Blue = Value(s"${Main.Blue}O${Main.Reset}")
 
+
+
+
 }
 
 

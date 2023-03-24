@@ -3,14 +3,15 @@ import Projeto.Cells.Cell
 import Projeto.Main._
 
 import scala.annotation.tailrec
+import scala.collection.mutable
 import scala.io.StdIn.readLine
-
-case class BoardState(board:Board){
+import mutable.HashMap
+case class BoardState(board:Board,unionFind: UnionFind){
   def drawGameState():Unit = BoardState.drawBoard(board)
   def drawGameStateFold():String = BoardState.drawBoardFold(board)
-  def playGameState(coords:(Int,Int), piece : Cell):BoardState = BoardState.inputBoard(board,coords, piece)
+  def playGameState(coords:(Int,Int), piece : Cell):BoardState = BoardState.inputBoard(this,coords, piece)
   def getCheckInput():(Int,Int)=BoardState.retrieveInput(board)
-  def hasWinner():Unit=BoardState.cellSet(board)
+  def hasWinner():Unit=BoardState.hasWinner(board)
 }
 
 object BoardState{
@@ -29,11 +30,12 @@ object BoardState{
         retrieveInput(board)
     }
   }
-  def inputBoard(board: Board, coords:(Int,Int), piece:Cell):BoardState={
-    val b : Board = board
+  def inputBoard(boardState: BoardState, coords:(Int,Int), piece:Cell):BoardState={
+    val b : Board = boardState.board
+    val u : UnionFind = boardState.unionFind
+
     BoardState(b.updated(coords._1 - 1, b(coords._1-1).updated(coords._2-1, piece)))
   }
-
   def drawBoard(board: Board): Unit = {
     println(s" ${Blue}*${Reset}  " * board.size)
     printRows()
@@ -58,20 +60,17 @@ object BoardState{
     }).dropRight((board.size-1)*5 + 3) }" +
     s"${" " * board.size}${BlueAst*board.size}"
   }
-
   private def inBounds(coords : Array[Int], board: Board):Boolean=coords(0) <= board.size && coords(1) <= board.size && coords(0)>0 && coords(1)>0
   private def isEmptySlot(coords:Array[Int], board:Board):Boolean=board(coords(1)-1)(coords(0)-1).equals(Cells.Empty)
-
+  private def uniteNeighbours(boardState: BoardState, coords:(Int,Int))={
+    
+  }
   def hasWinner(board: Board):Option[Cell]={
-
     Some(Cells.Blue)
   }
-  def cellSet(board:Board):Unit={
 
 
 
-
-  }
 
 
 }
