@@ -67,17 +67,9 @@ object BoardState{
     Some(Cells.Blue)
   }
   def cellSet(board:Board):Unit={
-    val s:Set[(Int,Int)]=Set[(Int,Int)]((-1,-1))
-    s.concat(initHead())
-    println(s)
-    @tailrec def initHead(acc:Set[(Int,Int)]=Set[(Int,Int)](), index:Int = 0):Set[(Int,Int)]={
-      if (index >= board.size){return acc}
-      if( board(0)(index).equals(Cells.Blue)){
-        initHead(acc.incl((0,index)), index + 1 )
-      }else{
-        initHead(acc, index + 1 )
-      }
-    }
+
+
+
 
   }
 
