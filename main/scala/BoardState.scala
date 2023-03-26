@@ -13,7 +13,7 @@ case class BoardState(board:Board,unionFind: UnionFind){
   def getCheckInput():(Int,Int)=BoardState.retrieveInput(board)
 
 
-  def getWin():Boolean=BoardState.WinCheck(this)
+  def getWin(): Option[String]=BoardState.WinCheck(this)
 
 }
 
@@ -66,8 +66,8 @@ object BoardState{
   private def inBounds(coords : Array[Int], board: Board):Boolean=coords(0) <= board.size && coords(1) <= board.size && coords(0)>0 && coords(1)>0
   private def isEmptySlot(coords:Array[Int], board:Board):Boolean=board(coords(1)-1)(coords(0)-1).equals(Cells.Empty)
 
-  def WinCheck(boardState: BoardState): Boolean = {
-    boardState.unionFind.map(0)(0) == boardState.unionFind.map(boardState.board.size + 1)(boardState.board.size - 1)
+  def WinCheck(boardState: BoardState): Option[String] = {
+    boardState.unionFind.percolates(boardState.board)
   }
 
 
