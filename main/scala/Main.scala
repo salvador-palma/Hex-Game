@@ -12,14 +12,9 @@ object Main{
   val Reset = "\u001b[0m"
   def main(args: Array[String]): Unit = {
 
-    val boardState:BoardState = BoardState(BoardState.defineBoard(5))
-
-    //boardState.drawGameState
-    val s = Set.empty[(Int,Int)]
-    val r = s + ((2,0))
-    println(s)
-    println(r)
+    val boardState:BoardState = BoardState(BoardState.defineBoard(5), UnionFind(UnionFind.init(5)))
     update(boardState)
+
 
 
 
@@ -27,11 +22,17 @@ object Main{
   @tailrec def update(boardState: BoardState){
 
     boardState.drawGameState
-    boardState.hasWinner
+
     val (x,y) = boardState.getCheckInput
 
     val newBoardState : BoardState = boardState.playGameState((y,x), Cells.Blue)
+    newBoardState.unionFind.print()
+    newBoardState.drawGameState
 
+    val (x2, y2) = boardState.getCheckInput
+
+    val nBoardState: BoardState = newBoardState.playGameState((y2, x2), Cells.Red)
+    nBoardState.unionFind.print()
     //Get CPU Coords
     //Play CPU Coords
     //Check for Win
@@ -40,7 +41,7 @@ object Main{
       case Some(x) => println("Winner Player!")
       case None=>
     }*/
-    update(newBoardState)
+    update(nBoardState)
   }
 
   }

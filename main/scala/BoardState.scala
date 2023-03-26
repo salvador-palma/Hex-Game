@@ -11,7 +11,10 @@ case class BoardState(board:Board,unionFind: UnionFind){
   def drawGameStateFold():String = BoardState.drawBoardFold(board)
   def playGameState(coords:(Int,Int), piece : Cell):BoardState = BoardState.inputBoard(this,coords, piece)
   def getCheckInput():(Int,Int)=BoardState.retrieveInput(board)
-  def hasWinner():Unit=BoardState.hasWinner(board)
+
+
+  def getWin():Boolean=BoardState.WinCheck(this)
+
 }
 
 object BoardState{
@@ -23,7 +26,7 @@ object BoardState{
       println("Where to play?")
       readLine.trim match {
         case "Q" => println("Thank you for playing!"); sys.exit(0)
-        case str => val s = str.split(" ").map(x => x.toInt); if (inBounds(s, board) && isEmptySlot(s, board)) (s(0), s(1)) else throw new IllegalArgumentException
+        case str => val s = str.split(" ").map(x => x.toInt); if (inBounds(s, board) && isEmptySlot(s, board)) (s(0)-1, s(1)-1) else throw new IllegalArgumentException
       }
     }catch{
       case _ => println(s"${Main.Red}Invalid Input or Coordinate already marked, try again.${Main.Reset}")
@@ -34,7 +37,7 @@ object BoardState{
     val b : Board = boardState.board
     val u : UnionFind = boardState.unionFind
 
-    BoardState(b.updated(coords._1 - 1, b(coords._1-1).updated(coords._2-1, piece)))
+    BoardState(b.updated(coords._1, b(coords._1).updated(coords._2, piece)), u.createUnions((coords._2, coords._1), boardState.board, piece))
   }
   def drawBoard(board: Board): Unit = {
     println(s" ${Blue}*${Reset}  " * board.size)
@@ -62,12 +65,12 @@ object BoardState{
   }
   private def inBounds(coords : Array[Int], board: Board):Boolean=coords(0) <= board.size && coords(1) <= board.size && coords(0)>0 && coords(1)>0
   private def isEmptySlot(coords:Array[Int], board:Board):Boolean=board(coords(1)-1)(coords(0)-1).equals(Cells.Empty)
-  private def uniteNeighbours(boardState: BoardState, coords:(Int,Int))={
-    
+
+  def WinCheck(boardState: BoardState): Boolean = {
+    boardState.unionFind.map(0)(0) == boardState.unionFind.map(boardState.board.size + 1)(boardState.board.size - 1)
   }
-  def hasWinner(board: Board):Option[Cell]={
-    Some(Cells.Blue)
-  }
+
+
 
 
 
