@@ -13,41 +13,39 @@ object Main{
   val Yellow = "\u001B[33m"
   def main(args: Array[String]): Unit = {
 
+
     val boardState:BoardState = BoardState(BoardState.defineBoard(5), UnionFind(UnionFind.init(5)))
-    update(boardState)
-
-
+    update(boardState, Random(10))
 
 
   }
-  @tailrec def update(boardState: BoardState){
-
+/*
+  @tailrec def mainMenu(): Unit = {
+    try{
+      println(s"${Yellow}Welcome to Hex-Game!${Reset}\n\n1-Player vs. CPU\n2-Player vs. Player\nQ-Quit")
+      readLine.trim match{
+        case "1"=>update(BoardState(BoardState.defineBoard(5), UnionFind(UnionFind.init(5))))
+        case "2"=>
+        case _  =>
+      }
+    }
+    mainMenu
+  }*/
+  @tailrec def update(boardState: BoardState, randomState: RandomState){
     boardState.drawGameState
-
     val (x,y) = boardState.getCheckInput
 
-    val newBoardState : BoardState = boardState.playGameState((y,x), Cells.Blue)
-    val win = newBoardState.getWin
-    if (win != None) {
-      println(win.getOrElse("Default Value"))
-    }
-    newBoardState.drawGameState
+    val playerBoardState : BoardState = boardState.playGameState((y,x), Cells.Blue)
+    val winP = playerBoardState.getWin
+    if (winP != None) println(s"${Yellow}Conratulations, You Won!!!${Reset}")
+    //playerBoardState.drawGameState
 
-    val (x2, y2) = boardState.getCheckInput
-    val nBoardState: BoardState = newBoardState.playGameState((y2, x2), Cells.Red)
-    val win2 = nBoardState.getWin
-    if (win2 != None) {
-      println(win2.getOrElse("Default Value"))
-    }
-    //Get CPU Coords
-    //Play CPU Coords
-    //Check for Win
-    /*
-    newBoardState.hasWinner match{
-      case Some(x) => println("Winner Player!")
-      case None=>
-    }*/
-    update(nBoardState)
+    val CPUBoardState: (BoardState,RandomState) = playerBoardState.playCPUGameState(randomState)
+    val winCPU = CPUBoardState._1.getWin
+
+    if (winCPU.contains("CPU"))) println(s"${Yellow}Oh no, you lost to CPU :(${Reset}")
+
+    update(CPUBoardState._1, CPUBoardState._2)
   }
 
   }

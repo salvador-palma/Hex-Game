@@ -7,10 +7,6 @@ object Cells extends Enumeration {
   val Red = Value(s"${Main.Red}X${Main.Reset}")
   val Empty = Value(".")
   val Blue = Value(s"${Main.Blue}O${Main.Reset}")
-
-
-
-
 }
 
 
