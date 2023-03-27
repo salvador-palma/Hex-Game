@@ -44,8 +44,9 @@ object Main{
     val winCPU = CPUBoardState._1.getWin
 
     if (winCPU.contains("CPU"))) println(s"${Yellow}Oh no, you lost to CPU :(${Reset}")
-
+    print("hello world")
     update(CPUBoardState._1, CPUBoardState._2)
+
   }
 
   }
