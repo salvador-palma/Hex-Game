@@ -47,8 +47,8 @@ object UnionFind{
   def percolateCheck(map:List[List[Int]], board: Board):Option[String]={
     def hasVertical():Boolean= (List.range(0, map.size) foldRight false)((x,acc)=> (List.range(0, map.size) foldRight false)((y,acc2)=> (board(0)(x).equals(Cells.Blue) && map(0)(x) == map(map.size-1)(y))|| acc2) ||acc)
     def hasHorizontal(): Boolean = (List.range(0, map.size) foldRight false)((x, acc) => (List.range(0, map.size) foldRight false)((y, acc2) => (board(x)(0).equals(Cells.Red) && map(x)(0) == map(y)(map.size - 1)) || acc2) || acc)
-    if (hasVertical) Some("Player")
-    else if (hasHorizontal) Some("CPU")
+    if (hasVertical) Some("P1")
+    else if (hasHorizontal) Some("P2")
     else None
   }
 }

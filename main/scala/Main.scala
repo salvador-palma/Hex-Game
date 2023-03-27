@@ -11,43 +11,33 @@ object Main{
   val Blue = "\u001b[34m"
   val Reset = "\u001b[0m"
   val Yellow = "\u001B[33m"
+  val Bold = "\u001B[1m"
   def main(args: Array[String]): Unit = {
-
-
-    val boardState:BoardState = BoardState(BoardState.defineBoard(5), UnionFind(UnionFind.init(5)))
-    update(boardState, Random(10))
-
-
+    mainMenu()
   }
-/*
-  @tailrec def mainMenu(): Unit = {
-    try{
-      println(s"${Yellow}Welcome to Hex-Game!${Reset}\n\n1-Player vs. CPU\n2-Player vs. Player\nQ-Quit")
-      readLine.trim match{
-        case "1"=>update(BoardState(BoardState.defineBoard(5), UnionFind(UnionFind.init(5))))
-        case "2"=>
-        case _  =>
-      }
+
+  @tailrec def mainMenu(){
+    println(s"      ${Bold}${Red}HEX${Reset}-${Blue}GAME!${Reset}\n\n${Bold}     Main  Menu${Reset}\n\n1-Player vs. CPU (easy)\n2-Player vs. Player\nQ-Quit")
+    readLine.trim.toUpperCase match{
+      case "1"=>update(BoardState(BoardState.defineBoard(5), UnionFind(UnionFind.init(5))), Random(10))
+      case "2"=>println("Not yet implemented")
+      case "Q"=>println("\n See you next time!")
+      case _  =>println("Invalid Option!")
     }
     mainMenu
-  }*/
+  }
   @tailrec def update(boardState: BoardState, randomState: RandomState){
     boardState.drawGameState
     val (x,y) = boardState.getCheckInput
-
     val playerBoardState : BoardState = boardState.playGameState((y,x), Cells.Blue)
-    val winP = playerBoardState.getWin
-    if (winP != None) println(s"${Yellow}Conratulations, You Won!!!${Reset}")
-    //playerBoardState.drawGameState
-
     val CPUBoardState: (BoardState,RandomState) = playerBoardState.playCPUGameState(randomState)
-    val winCPU = CPUBoardState._1.getWin
 
-    if (winCPU.contains("CPU"))) println(s"${Yellow}Oh no, you lost to CPU :(${Reset}")
-
-    update(CPUBoardState._1, CPUBoardState._2)
+    CPUBoardState._1.hasContinuousLine match{
+      case Some("P1")=> boardState.drawGameState; println(s"${Yellow}Conratulations, You Won!!!${Reset}")
+      case Some("P2")=>  println(s"${Yellow}Oh no, you lost to CPU :(${Reset}")
+      case _=> update(CPUBoardState._1, CPUBoardState._2)
+    }
   }
-
   }
 
 
