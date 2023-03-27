@@ -9,12 +9,11 @@ import scala.io.StdIn.readLine
 import mutable.HashMap
 
 case class BoardState(board:Board,unionFind: UnionFind){
-  def drawGameState():Unit = BoardState.drawBoard(board)
-  def drawGameStateFold():String = BoardState.drawBoardFold(board)
+  def draw():Unit = BoardState.drawBoard(board)
+  def drawFold():String = BoardState.drawBoardFold(board)
   def playGameState(coords:(Int,Int), piece : Cell):BoardState = BoardState.play(this,coords, piece)
-  def getCheckInput():(Int,Int)=BoardState.retrieveInput(board)
-  def hasContinuousLine(): Option[String]=this.unionFind.percolates(board)
-
+  def getInput():(Int,Int)=BoardState.retrieveInput(board)
+  def hasContinuousLine(): Option[String]=unionFind.percolates(board)
   def playCPUGameState(randomState: RandomState):(BoardState,RandomState) = BoardState.randomMove(this,randomState)
 }
 
@@ -27,6 +26,7 @@ object BoardState{
       println("Where to play?")
       readLine.trim match {
         case "Q" => println("Thank you for playing!"); sys.exit(0)
+        case "U" => (-1,-1)
         case str => val s = str.split(" ").map(x => x.toInt); if (inBounds(s, board) && isEmptySlot((s(0)-1,s(1)-1), board)) (s(0)-1, s(1)-1) else throw new IllegalArgumentException
       }
     }catch{
