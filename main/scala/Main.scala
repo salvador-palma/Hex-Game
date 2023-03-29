@@ -1,5 +1,6 @@
 package Projeto
 import Projeto.BoardState._
+import Projeto.Cells.Cell
 import Projeto.Main.Board
 
 import scala.annotation.tailrec
@@ -16,37 +17,59 @@ object Main{
   def main(args: Array[String]): Unit = {
     mainMenu()
   }
-
   @tailrec def mainMenu(){
     println(s"      ${Bold}${Red}HEX${Reset}-${Blue}GAME!${Reset}\n\n${Bold}     Main  Menu${Reset}\n\n1-Player vs. CPU (easy)\n2-Player vs. Player\nQ-Quit")
     readLine.trim.toUpperCase match{
-      case "1"=>update(BoardState(BoardState.defineBoard(5), UnionFind(UnionFind.init(5))), Random(10), List.empty[BoardState])
-      case "2"=>println("Not yet implemented")
-      case "Q"=>println("\n See you next time!")
-      case _  =>println("Invalid Option!")
+      case "1"=>updatePvC(BoardState(BoardState.defineBoard(5), UnionFind(UnionFind.init(5))), Random(10));mainMenu
+      case "2"=>updatePvP(BoardState(BoardState.defineBoard(5), UnionFind(UnionFind.init(5))));mainMenu
+      case "Q"=>println("\n See you next time!");
+      case _  =>println("Invalid Option!");mainMenu
     }
-    mainMenu
+
   }
-  @tailrec def update(boardState: BoardState, randomState: RandomState, history:List[BoardState]){
+  @tailrec def updatePvC(boardState: BoardState, randomState: RandomState, history:List[BoardState] = List.empty[BoardState]){
     boardState.draw
     boardState.getInput match {
+      case (-1,-2)=>{println(s"${Yellow}Thank you for playing!${Reset}")}
       case (-1,-1)=> {
         history match{
-          case Nil=>println(s"${Red}There are no moves to Undo${Reset}");update(boardState,randomState, history)
-          case h::t=>println(s"${Green}Move undone${Reset}");update(h,randomState,t)
+          case Nil=>println(s"${Red}There are no moves to Undo${Reset}");updatePvC(boardState,randomState, history)
+          case h::t=>println(s"${Green}Move undone${Reset}");updatePvC(h,randomState,t)
         }
       }
-      case (x:Int,y:Int)=>  {
+      case (x,y)=>  {
         val playerBoardState: BoardState = boardState.playGameState((y, x), Cells.Blue)
-        val CPUBoardState: (BoardState, RandomState) = playerBoardState.playCPUGameState(randomState)
-        CPUBoardState._1.hasContinuousLine match {
+        val ((cpuX,cpuY), nextRand) = playerBoardState.playCPUGameState(randomState)
+        val CPUBoardState: BoardState = playerBoardState.playGameState((cpuY,cpuX), Cells.Red)
+        CPUBoardState.hasContinuousLine match {
           case Some("P1") => playerBoardState.draw; println(s"${Yellow}Conratulations, You Won!!!${Reset}")
-          case Some("P2") => CPUBoardState._1.draw; println(s"${Yellow}Oh no, you lost to CPU :(${Reset}")
-          case _ => update(CPUBoardState._1, CPUBoardState._2, boardState::history)
+          case Some("P2") => CPUBoardState.draw; println(s"${Yellow}Oh no, you lost to CPU :(${Reset}")
+          case _ => updatePvC(CPUBoardState, nextRand, boardState::history)
         }
       }
     }
   }
+  @tailrec def updatePvP(boardState: BoardState, history: List[BoardState] = List.empty[BoardState], currentPlayer : Cell = Cells.Blue) {
+    boardState.draw
+    boardState.getInput match {
+      case (-1, -2) => println(s"${Yellow}Thank you for playing!${Reset}")
+      case (-1, -1) =>
+        history match {
+          case Nil => println(s"${Red}There are no moves to Undo${Reset}"); updatePvP(boardState, history)
+          case h :: t => println(s"${Green}Move undone${Reset}"); updatePvP(h, t)
+        }
+      case (x, y) => {
+        val playerBoardState: BoardState = boardState.playGameState((y, x), currentPlayer)
+        val nextPlayer = if(currentPlayer.equals(Cells.Blue)) Cells.Red else Cells.Blue
+        playerBoardState.hasContinuousLine match {
+          case Some("P1") => playerBoardState.draw; println(s"${Yellow}Conratulations, Player 1 Won!!!${Reset}")
+          case Some("P2") => playerBoardState.draw; println(s"${Yellow}Conratulations, Player 2 Won!!!${Reset}")
+          case _ => updatePvP(playerBoardState, boardState :: history, nextPlayer)
+        }
+      }
+    }
+  }
+
   }
 
 

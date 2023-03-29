@@ -14,7 +14,7 @@ case class BoardState(board:Board,unionFind: UnionFind){
   def playGameState(coords:(Int,Int), piece : Cell):BoardState = BoardState.play(this,coords, piece)
   def getInput():(Int,Int)=BoardState.retrieveInput(board)
   def hasContinuousLine(): Option[String]=unionFind.percolates(board)
-  def playCPUGameState(randomState: RandomState):(BoardState,RandomState) = BoardState.randomMove(this,randomState)
+  def playCPUGameState(randomState: RandomState):((Int,Int),RandomState)= BoardState.randomMove(this,randomState)
 }
 
 object BoardState{
@@ -25,7 +25,7 @@ object BoardState{
     try{
       println("Where to play?")
       readLine.trim match {
-        case "Q" => println("Thank you for playing!"); sys.exit(0)
+        case "Q" => (-1,-2)
         case "U" => (-1,-1)
         case str => val s = str.split(" ").map(x => x.toInt); if (inBounds(s, board) && isEmptySlot((s(0)-1,s(1)-1), board)) (s(0)-1, s(1)-1) else throw new IllegalArgumentException
       }
@@ -34,10 +34,10 @@ object BoardState{
         retrieveInput(board)
     }
   }
-  @tailrec private def randomMove(boardState: BoardState, rand: RandomState): (BoardState, RandomState) = {
+  @tailrec private def randomMove(boardState: BoardState, rand: RandomState): ((Int, Int),RandomState) = {
     val x : ((Int,Int),RandomState) = rand.nextCoords(boardState.board.size)
     if (isEmptySlot(x._1, boardState.board)){
-      (play(boardState, (x._1._2, x._1._1), Cells.Red),x._2)
+      x
     }
     else randomMove(boardState, x._2)
   }
