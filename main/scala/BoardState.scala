@@ -12,16 +12,16 @@ case class BoardState(board:Board,unionFind: UnionFind){
   def draw():Unit = BoardState.drawBoard(board)
   def drawFold():String = BoardState.drawBoardFold(board)
   def playGameState(coords:(Int,Int), piece : Cell):BoardState = BoardState.play(this,coords, piece)
-  def getInput():(Int,Int)=BoardState.retrieveInput(board)
+  def getInput():(Int,Int)=BoardState.getInput(board)
   def hasContinuousLine(): Option[String]=unionFind.percolates(board)
-  def playCPUGameState(randomState: RandomState):((Int,Int),RandomState)= BoardState.randomMove(this,randomState)
+  def playCPUGameState(randomState: RandomState):((Int,Int),RandomState)= BoardState.getRandomInput(this,randomState)
 }
 
 object BoardState{
   val BlueAst = s" ${Blue}*${Reset}  "
   val RedAst = s" ${Red}*${Reset}  "
   def defineBoard(n:Integer):Board=List.fill(n)(List.fill(n)(Cells.Empty))
-  @tailrec private def retrieveInput(board: Board):(Int,Int)={
+  @tailrec private def getInput(board: Board):(Int,Int)={
     try{
       println("Where to play?")
       readLine.trim match {
@@ -31,15 +31,13 @@ object BoardState{
       }
     }catch{
       case _ => println(s"${Main.Red}Invalid Input or Coordinate already marked, try again.${Main.Reset}")
-        retrieveInput(board)
+        getInput(board)
     }
   }
-  @tailrec private def randomMove(boardState: BoardState, rand: RandomState): ((Int, Int),RandomState) = {
+  @tailrec private def getRandomInput(boardState: BoardState, rand: RandomState): ((Int, Int),RandomState) = {
     val x : ((Int,Int),RandomState) = rand.nextCoords(boardState.board.size)
-    if (isEmptySlot(x._1, boardState.board)){
-      x
-    }
-    else randomMove(boardState, x._2)
+    if (isEmptySlot(x._1, boardState.board)) x
+    else getRandomInput(boardState, x._2)
   }
   private def play(boardState: BoardState, coords:(Int,Int), player:Cell):BoardState={
     val b : Board = boardState.board
@@ -73,14 +71,6 @@ object BoardState{
   }
   private def inBounds(coords : Array[Int], board: Board):Boolean=coords(0) <= board.size && coords(1) <= board.size && coords(0)>0 && coords(1)>0
   private def isEmptySlot(coords:(Int,Int), board:Board):Boolean=board(coords._2)(coords._1).equals(Cells.Empty)
-
-
-
-
-
-
-
-
 
 }
 
