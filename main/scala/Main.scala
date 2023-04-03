@@ -15,7 +15,7 @@ object Main{
   val Bold = "\u001B[1m"
   val Green = "\u001B[32m"
   def main(args: Array[String]): Unit = {
-    mainMenu()
+    //mainMenu()
   }
   @tailrec def mainMenu(){
     println(s"      ${Bold}${Red}HEX${Reset}-${Blue}GAME!${Reset}\n\n${Bold}     Main  Menu${Reset}\n\n1-Player vs. CPU (easy)\n2-Player vs. Player\nQ-Quit")
