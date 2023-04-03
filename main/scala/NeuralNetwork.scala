@@ -40,8 +40,8 @@ object NeuralNetwork{
     val Inputs = translateBoard(board)
     val hiddenZ = ActivateHiddenLayer(IHW,Inputs,HB)
     val outputZ = ActivateHiddenLayer(HOW,hiddenZ,OB)
-    val balanced = outputZ.map(x=>(x*5).toInt)
-    (balanced(0),balanced(1))
+    val balancedOutput = outputZ.map(x=>(x*5).toInt)
+    (balancedOutput(0),balancedOutput(1))
   }
 
 
