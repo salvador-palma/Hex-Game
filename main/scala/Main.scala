@@ -15,7 +15,10 @@ object Main{
   val Bold = "\u001B[1m"
   val Green = "\u001B[32m"
   def main(args: Array[String]): Unit = {
-    //mainMenu()
+
+    val network = GenerateSuperAI(1000)
+    PlaySuperAI(BoardState(BoardState.defineBoard(5), UnionFind(UnionFind.init(5))), network)
+
   }
   @tailrec def mainMenu(){
     println(s"      ${Bold}${Red}HEX${Reset}-${Blue}GAME!${Reset}\n\n${Bold}     Main  Menu${Reset}\n\n1-Player vs. CPU (easy)\n2-Player vs. Player\nQ-Quit")
@@ -69,6 +72,48 @@ object Main{
       }
     }
   }
+
+  def GenerateSuperAI(level:Int): NeuralNetwork = {
+    println("Generating Super AI... (This process can take some time)")
+    val initialPopulation:Generation = Generation.Start(64,(-100,100),Random(234))
+    def nGen(n:Int, acc:Generation):Generation={
+      def nextGen(generation: Generation): Generation = {
+        //println("Selecting...")
+        val s = generation.Select()
+        //println("Selected " + s.size)
+        val g =generation.Breed(s)
+        //println("Breeded to " + g.population.size)
+        g
+      }
+      //println("Generation " + (level-n))
+      n match{
+        case 0=> acc
+        case x=> nGen(x-1, nextGen(acc))
+      }
+    }
+    val ngen = nGen(level,initialPopulation)
+    println("Super AI Level " + level + " successfully generated")
+    ngen.Strongest
+  }
+
+  def PlaySuperAI(boardState: BoardState,neuralNetwork: NeuralNetwork):Unit={
+    boardState.draw
+    boardState.getInput match {
+      case (x, y) => {
+        val playerBoardState = boardState.playGameState((y, x), Cells.Blue)
+        val (cpuX, cpuY) = neuralNetwork.Predict(playerBoardState)
+        val CPUBoardState = playerBoardState.playGameState((cpuY, cpuX), Cells.Red)
+        CPUBoardState.hasContinuousLine match {
+          case Some("P1") => playerBoardState.draw; println(s"${Yellow}Conratulations, You Won!!!${Reset}")
+          case Some("P2") => CPUBoardState.draw; println(s"${Yellow}Oh no, you lost to CPU :(${Reset}")
+          case _ => PlaySuperAI(CPUBoardState, neuralNetwork)
+        }
+      }
+    }
+  }
+
+
+
 
   }
 

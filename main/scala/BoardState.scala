@@ -15,6 +15,8 @@ case class BoardState(board:Board,unionFind: UnionFind){
   def getInput():(Int,Int)=BoardState.getInput(board)
   def hasContinuousLine(): Option[String]=unionFind.percolates(board)
   def playCPUGameState(randomState: RandomState):((Int,Int),RandomState)= BoardState.getRandomInput(this,randomState)
+
+  def valid(input:(Int,Int)):Boolean= BoardState.inBounds(Array(input._1 + 1,input._2 + 1),board) && BoardState.isEmptySlot(input,board)
 }
 
 object BoardState{
