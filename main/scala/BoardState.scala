@@ -18,6 +18,7 @@ case class BoardState(board:Board,unionFind: UnionFind){
   def hasContinuousLine(): Option[String]=unionFind.percolates(board)
   def playCPUGameState(randomState: RandomState):((Int,Int),RandomState)= BoardState.getRandomInput(this,randomState)
   def valid(input:(Int,Int)):Boolean= BoardState.inBounds(Array(input._1 + 1,input._2 + 1),board) && BoardState.isEmptySlot(input,board)
+
 }
 
 object BoardState{
@@ -41,6 +42,7 @@ object BoardState{
     val x : ((Int,Int),RandomState) = rand.nextCoords(boardState.board.size)
     if (isEmptySlot(x._1, boardState.board)) x
     else getRandomInput(boardState, x._2)
+
   }
 
   //funcao que recebe uma coord e devolve uma adjacente
@@ -66,18 +68,9 @@ object BoardState{
       }
     }
   }
-/*
-  private def getBestMove() : (Int,Int) = {
-
-  }
 
 
-  private def getMinMaxInput(boardState: BoardState): (Int,Int)= {
-    if ()
 
-
-  }
-*/
   private def play(boardState: BoardState, coords:(Int,Int), player:Cell):BoardState={
     val b : Board = boardState.board
     val u : UnionFind = boardState.unionFind

@@ -47,6 +47,7 @@ object Main{
           case Some("P2") => CPUBoardState.draw; println(s"${Yellow}Oh no, you lost to CPU :(${Reset}")
           case _ => updatePvC(CPUBoardState, nextRand, boardState::history)
         }
+
       }
     }
   }
@@ -95,7 +96,6 @@ object Main{
         }
       }
     }
-  }
 
   }
 
