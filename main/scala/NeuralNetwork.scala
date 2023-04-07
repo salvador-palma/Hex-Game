@@ -1,11 +1,12 @@
 package Projeto
 import Projeto.BoardState
+import Projeto.Cells.Cell
 import Projeto.Main.Board
 
 import scala.annotation.tailrec
 
 case class NeuralNetwork(IHW:List[List[Double]],HB:List[Double],HOW:List[List[Double]],OB:List[Double], Gene:List[Double]){
-  def Predict(boardState: BoardState):(Int,Int)= NeuralNetwork.Predict(IHW, HB, HOW, OB, boardState);
+  def Predict(boardState: BoardState, player : Cell):(Int,Int)= NeuralNetwork.Predict(IHW, HB, HOW, OB, boardState, player);
 
   override def toString: String = Gene.toString()
 }
@@ -19,9 +20,8 @@ object NeuralNetwork{
     NeuralNetwork(inputHiddenWeights, hiddenBias, hiddenOutputWeights, outputBias, values)
   }
 
-  def Crossover(parent: List[Double], mother : List[Double]): NeuralNetwork = {
-    val r = Random(80)
-    val index = r.nextInt(parent.size)
+  def Crossover(parent: List[Double], mother : List[Double], randomState: RandomState): (NeuralNetwork,RandomState) = {
+    val index = randomState.nextInt(parent.size)
     def loop(switch:Int, cur : Int):List[Double]={
       cur match{
         case -1 => Nil
@@ -34,10 +34,25 @@ object NeuralNetwork{
         }
       }
     }
-    Create(loop(index._1, parent.size-1),5*5, 15, 5*5)
 
+    val d = loop(index._1, parent.size-1)
+    val n = index._2.nextInt(10)
+
+    if(n._1 <= 7){
+
+      val index1 = n._2.nextInt(d.size)
+      val index2 = index1._2.nextInt(d.size)
+      val (p1,p2) = if(index1._1<index2._1)(index1._1,index2._1)else(index2._1,index1._1)
+      val (start,rest)  = d.splitAt(p1)
+      val (mid,end)  = rest.splitAt(p2)
+      val shuffled  = shuffleList(mid, index2._2)
+      val c = start:::shuffled._1:::end
+      (Create(c,5*5,15,5*5),shuffled._2)
+    }
+
+    (Create(d,5*5, 15, 5*5),n._2)
   }
-  def Predict(IHW:List[List[Double]],HB:List[Double],HOW:List[List[Double]],OB:List[Double],boardState: BoardState): (Int,Int) = {
+  def Predict(IHW:List[List[Double]],HB:List[Double],HOW:List[List[Double]],OB:List[Double],boardState: BoardState, player:Cell): (Int,Int) = {
     def ActivateHiddenLayer(weights:List[List[Double]], inputs: List[Double], hiddenB:List[Double]):List[Double]={
       def getNodeValue(w: List[Double], i: List[Double], b: Double): Double = {
         w match {
@@ -62,7 +77,8 @@ object NeuralNetwork{
         case h::t=> h.map(c=> if (c.equals(Cells.Blue)) 1.0 else if (c.equals(Cells.Red)) -1.0 else 0) ::: translateBoard(t)
       }
     }
-    val Inputs = translateBoard(boardState.board)
+    val adjustedBoard = if(player.equals(Cells.Blue)){ TurnBoard(boardState.board) }else{boardState.board}
+    val Inputs = translateBoard(adjustedBoard)
     val hiddenZ = Sigmoid(ActivateHiddenLayer(IHW,Inputs,HB))
     val outputZ = SoftMax(ActivateHiddenLayer(HOW,hiddenZ,OB))
     val indexes = outputZ.zipWithIndex.sortBy(-_._1).map(_._2)
@@ -71,7 +87,6 @@ object NeuralNetwork{
       val h::t = list
       val (x,y) = (h%5,h/5)
       if (boardState.valid(x,y)){
-        //println(x + "; " + y)
         (x,y)
       }else{
         TryPlay(t)
@@ -89,10 +104,32 @@ object NeuralNetwork{
     x
   }
 
+  def TurnBoard(list:Board):Board = {
+    val newList = list.map(r => r.map(e=> if(e.equals(Cells.Red)) Cells.Blue else if(e==Cells.Blue) Cells.Red else Cells.Empty))
+    ReflectTranspose(newList)
+  }
+  def ReflectTranspose(lst:Board):Board = {
+    lst.transpose.map(_.reverse).reverse
+  }
+
   def Compress(list: List[Double], height: Int, width: Int): (List[List[Double]], List[Double]) = {
     val (matrixElements, remainingElements) = list.splitAt(height * width)
     val matrix = matrixElements.grouped(width).toList
     (matrix, remainingElements)
   }
   def Split(list: List[Double], index: Int): (List[Double], List[Double]) = list.splitAt(index)
+
+
+  def shuffleList(lst: List[Double], randomState: RandomState): (List[Double],RandomState) = {
+    def shuffle(lst: List[Double], acc: List[Double],r:RandomState): (List[Double],RandomState) = {
+      lst match {
+        case Nil => (acc,r)
+        case _ =>
+          val rand = r.nextInt(lst.length)
+          val (s, e) = lst.splitAt(rand._1)
+          shuffle(s ::: e.tail, acc :+ e.head,rand._2)
+      }
+    }
+    shuffle(lst, Nil,randomState)
+  }
 }

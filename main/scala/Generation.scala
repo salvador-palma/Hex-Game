@@ -1,7 +1,7 @@
 package Projeto
 case class Generation(population : List[NeuralNetwork]){
   def Select(): List[(NeuralNetwork, Int)] = Generation.Selection(this)
-  def Breed(selection:List[NeuralNetwork]):Generation = Generation.Breed(selection, 64, Random(20))
+  def Breed(selection:List[NeuralNetwork],randomState: RandomState):(Generation,RandomState) = Generation.Breed(selection, 64, randomState)
   def Strongest()=Generation.BattleRoyale(population)
   override def toString: String = "Generation size: " + population.size
 }
@@ -33,17 +33,19 @@ object Generation{
         case _ => Nil
       }
     }
-    SelectWinner(generation.population.grouped(2).toList)
+    val Winners  = SelectWinner(generation.population.grouped(2).toList).sortBy(_._2)
+    Winners.splitAt(Winners.length / 2)._1
+
   }
 
   def Simulate(boardState: BoardState, Players: Array[NeuralNetwork],acc:Int=0) : (Option[Int],Int) = {
-    val(x,y) = Players(0).Predict(boardState)
+    val(x,y) = Players(0).Predict(boardState, Cells.Blue)
     val newBoardState = boardState.playGameState((y,x), Cells.Blue)
     newBoardState.hasContinuousLine match {
       case Some("P1")=>(Some(0),acc)
       case Some("P2")=>(Some(1),acc)
       case _=>{
-        val (w, z) = Players(1).Predict(newBoardState)
+        val (w, z) = Players(1).Predict(newBoardState, Cells.Red)
         val newerBoardState = newBoardState.playGameState((z, w), Cells.Red)
         newerBoardState.hasContinuousLine match {
           case Some("P1") => (Some(0),acc)
@@ -54,13 +56,14 @@ object Generation{
     }
   }
 
-  def Breed(selection:List[NeuralNetwork], n : Int, randomState: RandomState):Generation={
+  def Breed(selection:List[NeuralNetwork], n : Int, randomState: RandomState):(Generation,RandomState)={
     if(selection.size < n){
       val i = randomState.nextInt(selection.size)
       val j = i._2.nextInt(selection.size)
-      Breed(NeuralNetwork.Crossover(selection(i._1).Gene, selection(j._1).Gene) :: selection,n,j._2)
+      val cross = NeuralNetwork.Crossover(selection(i._1).Gene, selection(j._1).Gene, j._2)
+      Breed(cross._1 :: selection,n,cross._2)
     }else{
-      Generation(selection)
+      (Generation(selection),randomState)
     }
   }
 
@@ -70,8 +73,8 @@ object Generation{
         case Nil => Nil
         case h :: t => {
           Simulate(BoardState(BoardState.defineBoard(5), UnionFind(UnionFind.init(5))), Array(h(0), h(1))) match {
-            case Some(0) => h(0) :: SelectWinner(t)
-            case Some(1) => h(1) :: SelectWinner(t)
+            case (Some(0),_) => h(0) :: SelectWinner(t)
+            case (Some(1),_) => h(1) :: SelectWinner(t)
           }
         }
         case _ => Nil

@@ -47,7 +47,7 @@ object BoardState{
 
     BoardState(b.updated(coords._1, b(coords._1).updated(coords._2, player)), u.createUnions((coords._2, coords._1), boardState.board, player))
   }
-  private def drawBoard(board: Board): Unit = {
+   def drawBoard(board: Board): Unit = {
     println(s" ${Blue}*${Reset}  " * board.size)
     printRows()
     println((" " * (board.size + 1))+ s" ${Blue}*${Reset}  " * board.size)
