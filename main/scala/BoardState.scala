@@ -1,8 +1,9 @@
 package Projeto
-import Projeto.BoardState.{inBounds, isEmptySlot}
+import Projeto.BoardState.{getRandomInput, inBounds, isEmptySlot}
 import Projeto.Cells.Cell
 import Projeto.Main._
 import Projeto.Random._
+
 import scala.annotation.tailrec
 import scala.collection.mutable
 import scala.io.StdIn.readLine
@@ -13,8 +14,11 @@ case class BoardState(board:Board,unionFind: UnionFind){
   def drawFold():String = BoardState.drawBoardFold(board)
   def playGameState(coords:(Int,Int), piece : Cell):BoardState = BoardState.play(this,coords, piece)
   def getInput():(Int,Int)=BoardState.getInput(board)
+  def playCPUGameStateAdjacent(randomState: RandomState,oldCoord : (Int,Int)):((Int,Int),RandomState)= BoardState.adjacentCoord(oldCoord,this,randomState)
   def hasContinuousLine(): Option[String]=unionFind.percolates(board)
   def playCPUGameState(randomState: RandomState):((Int,Int),RandomState)= BoardState.getRandomInput(this,randomState)
+  def valid(input:(Int,Int)):Boolean= BoardState.inBounds(Array(input._1 + 1,input._2 + 1),board) && BoardState.isEmptySlot(input,board)
+
 }
 
 object BoardState{
@@ -38,7 +42,35 @@ object BoardState{
     val x : ((Int,Int),RandomState) = rand.nextCoords(boardState.board.size)
     if (isEmptySlot(x._1, boardState.board)) x
     else getRandomInput(boardState, x._2)
+
   }
+
+  //funcao que recebe uma coord e devolve uma adjacente
+
+  private def adjacentCoord(coord : (Int,Int) , boardState: BoardState, rand : RandomState) : ((Int,Int),RandomState) = {
+    if (coord == (-1,-1)){
+      val t = getRandomInput(boardState, rand)
+      println(t)
+      t
+    }
+    else {
+      val x = coord._1
+      val y = coord._2
+      val adjList: List[(Int, Int)] = List((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1), (x - 1, y + 1), (x + 1, y - 1))
+      val checkAdj = (adjList foldRight true) ( (e,acc) => !boardState.valid(e) && acc)
+      if (checkAdj) {
+        adjacentCoord((-1,-1),boardState, rand)
+      }
+      else{
+        val nextRand = rand.nextInt(adjList.size)
+        val randomCoord = adjList(nextRand._1)
+        if (boardState.valid(randomCoord)) (randomCoord, nextRand._2) else adjacentCoord(coord, boardState, nextRand._2)
+      }
+    }
+  }
+
+
+
   private def play(boardState: BoardState, coords:(Int,Int), player:Cell):BoardState={
     val b : Board = boardState.board
     val u : UnionFind = boardState.unionFind
