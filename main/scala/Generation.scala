@@ -33,8 +33,10 @@ object Generation{
         case _ => Nil
       }
     }
-    val Winners  = SelectWinner(generation.population.grouped(2).toList).sortBy(_._2)
-    Winners.splitAt(Winners.length / 2)._1
+    val Winners = SelectWinner(SelectWinner(generation.population.grouped(2).toList).map(_._1).grouped(2).toList)
+    Winners
+    //val Winners  = SelectWinner(generation.population.grouped(2).toList)
+    //Winners.splitAt(Winners.length / 2)._1
 
   }
 
