@@ -51,7 +51,6 @@ object Main{
       }
     }
   }
-
   @tailrec def updatePvCAdjacent(boardState: BoardState, randomState: RandomState, history: List[BoardState] = List.empty[BoardState], oldCoord : (Int,Int) = (-1,-1)) {
     boardState.draw
     boardState.getInput match {
@@ -76,7 +75,6 @@ object Main{
       }
     }
   }
-
   @tailrec def updatePvP(boardState: BoardState, history: List[BoardState] = List.empty[BoardState], currentPlayer : Cell = Cells.Blue) {
     boardState.draw
     boardState.getInput match {

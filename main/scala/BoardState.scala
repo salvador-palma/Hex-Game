@@ -44,13 +44,9 @@ object BoardState{
     else getRandomInput(boardState, x._2)
 
   }
-
-  //funcao que recebe uma coord e devolve uma adjacente
-
   private def adjacentCoord(coord : (Int,Int) , boardState: BoardState, rand : RandomState) : ((Int,Int),RandomState) = {
     if (coord == (-1,-1)){
       val t = getRandomInput(boardState, rand)
-      println(t)
       t
     }
     else {
