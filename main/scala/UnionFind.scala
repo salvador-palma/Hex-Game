@@ -1,15 +1,11 @@
 package Projeto
 
 import Projeto.Cells.Cell
-import Projeto.Main.{Board, Reset, Yellow}
+import Projeto.Main.Board
 
-import scala.annotation.tailrec
-import scala.collection.mutable.HashMap
-
-
-case class UnionFind(map : List[List[Int]]){
-  def createUnions(c1:(Int,Int), board: Board, cell:Cell):UnionFind = UnionFind.unions(c1,map, board, cell)
-  def percolates(board: Board):Option[String]= UnionFind.percolateCheck(map, board)
+case class UnionFind(field : List[List[Int]]){
+  def createUnions(c1:(Int,Int), board: Board, cell:Cell):UnionFind = UnionFind.unions(c1,field, board, cell)
+  def percolates(board: Board):Option[String]= UnionFind.percolateCheck(field, board)
 }
 object UnionFind{
   def init(n:Int): List[List[Int]]= (List.range(0,n) foldRight List[List[Int]]())((x,acc)=> List.range(x*n,x*n+n) :: acc)
@@ -24,7 +20,7 @@ object UnionFind{
       case _=> l
     }
   }
-  private def unions(c: (Int, Int), map: List[List[Int]], board:Board, cell:Cell):UnionFind={
+  private def unions(c: (Int, Int), field: List[List[Int]], board:Board, cell:Cell):UnionFind={
     def createUnions(l: List[(Int, Int)], acc: List[List[Int]]): UnionFind = {
       l match {
         case Nil => UnionFind(acc)
@@ -37,14 +33,12 @@ object UnionFind{
           }
       }
     }
-    val x = c._1
-    val y = c._2
-    val coordsList : List[(Int, Int)] =List((x+1,y),(x-1,y),(x,y+1),(x,y-1),(x-1,y+1),(x+1,y-1))
-    createUnions(coordsList, map)
+    val (x,y) = c
+    createUnions(List((x+1,y),(x-1,y),(x,y+1),(x,y-1),(x-1,y+1),(x+1,y-1)), field)
   }
-  private def percolateCheck(map:List[List[Int]], board: Board):Option[String]={
-    def hasVertical():Boolean= (List.range(0, map.size) foldRight false)((x,acc)=> (List.range(0, map.size) foldRight false)((y,acc2)=> (board(0)(x).equals(Cells.Blue) && map(0)(x) == map(map.size-1)(y))|| acc2) ||acc)
-    def hasHorizontal(): Boolean = (List.range(0, map.size) foldRight false)((x, acc) => (List.range(0, map.size) foldRight false)((y, acc2) => (board(x)(0).equals(Cells.Red) && map(x)(0) == map(y)(map.size - 1)) || acc2) || acc)
+  private def percolateCheck(field:List[List[Int]], board: Board):Option[String]={
+    def hasVertical():Boolean= (List.range(0, field.size) foldRight false)((x, acc)=> (List.range(0, field.size) foldRight false)((y, acc2)=> (board(0)(x).equals(Cells.Blue) && field(0)(x) == field(field.size-1)(y))|| acc2) ||acc)
+    def hasHorizontal(): Boolean = (List.range(0, field.size) foldRight false)((x, acc) => (List.range(0, field.size) foldRight false)((y, acc2) => (board(x)(0).equals(Cells.Red) && field(x)(0) == field(y)(field.size - 1)) || acc2) || acc)
     if (hasVertical) Some("P1")
     else if (hasHorizontal) Some("P2")
     else None
