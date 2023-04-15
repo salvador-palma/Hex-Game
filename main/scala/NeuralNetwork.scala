@@ -38,7 +38,7 @@ object NeuralNetwork{
     val d = loop(index._1, parent.size-1)
     val n = index._2.nextInt(10)
 
-    if(n._1 <= 7){
+    if(n._1 <= 3){
 
       val index1 = n._2.nextInt(d.size)
       val index2 = index1._2.nextInt(d.size)
@@ -79,7 +79,7 @@ object NeuralNetwork{
     }
     val adjustedBoard = if(player.equals(Cells.Blue)){ TurnBoard(boardState.board) }else{boardState.board}
     val Inputs = translateBoard(adjustedBoard)
-    val hiddenZ = Sigmoid(ActivateHiddenLayer(IHW,Inputs,HB))
+    val hiddenZ = ReLu(ActivateHiddenLayer(IHW,Inputs,HB))
     val outputZ = SoftMax(ActivateHiddenLayer(HOW,hiddenZ,OB))
     val indexes = outputZ.zipWithIndex.sortBy(-_._1).map(_._2)
     def TryPlay(list : List[Int]): (Int,Int) = {
@@ -103,6 +103,8 @@ object NeuralNetwork{
     val x = output.map(x=> x/sum)
     x
   }
+
+  def ReLu(output:List[Double]):List[Double]= output.map(x=> if(x>=0) x else 0)
 
   def TurnBoard(list:Board):Board = {
     val newList = list.map(r => r.map(e=> if(e.equals(Cells.Red)) Cells.Blue else if(e==Cells.Blue) Cells.Red else Cells.Empty))
