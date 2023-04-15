@@ -13,20 +13,18 @@ case class UnionFind(map : List[List[Int]]){
 }
 object UnionFind{
   def init(n:Int): List[List[Int]]= (List.range(0,n) foldRight List[List[Int]]())((x,acc)=> List.range(x*n,x*n+n) :: acc)
-  def union(c1: (Int, Int), c2: (Int, Int), l: List[List[Int]]): List[List[Int]] = {
+  private def union(c1: (Int, Int), c2: (Int, Int), l: List[List[Int]]): List[List[Int]] = {
     try{
       val i2 : Int = l(c2._2)(c2._1)
       val i1 : Int = l(c1._2)(c1._1)
-
       if (i1 == i2) l
       val newList = l.map(innerList => innerList.map(value => if (value == i1) i2 else value))
       newList
-
     }catch {
       case _=> l
     }
   }
-  def unions(c: (Int, Int), map: List[List[Int]], board:Board, cell:Cell):UnionFind={
+  private def unions(c: (Int, Int), map: List[List[Int]], board:Board, cell:Cell):UnionFind={
     def createUnions(l: List[(Int, Int)], acc: List[List[Int]]): UnionFind = {
       l match {
         case Nil => UnionFind(acc)
@@ -44,7 +42,7 @@ object UnionFind{
     val coordsList : List[(Int, Int)] =List((x+1,y),(x-1,y),(x,y+1),(x,y-1),(x-1,y+1),(x+1,y-1))
     createUnions(coordsList, map)
   }
-  def percolateCheck(map:List[List[Int]], board: Board):Option[String]={
+  private def percolateCheck(map:List[List[Int]], board: Board):Option[String]={
     def hasVertical():Boolean= (List.range(0, map.size) foldRight false)((x,acc)=> (List.range(0, map.size) foldRight false)((y,acc2)=> (board(0)(x).equals(Cells.Blue) && map(0)(x) == map(map.size-1)(y))|| acc2) ||acc)
     def hasHorizontal(): Boolean = (List.range(0, map.size) foldRight false)((x, acc) => (List.range(0, map.size) foldRight false)((y, acc2) => (board(x)(0).equals(Cells.Red) && map(x)(0) == map(y)(map.size - 1)) || acc2) || acc)
     if (hasVertical) Some("P1")
