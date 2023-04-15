@@ -12,8 +12,8 @@ object Generation{
       m match{
         case 0=> Nil
         case _=> {
-          val b = randomState.doubleList(790,range)
-          NeuralNetwork.Create(b._1, 5*5, 15, 5*5) :: loop(m-1, b._2)
+          val b = randomState.doubleList(535,range) //790 = 25-15-25
+          NeuralNetwork.Create(b._1, 5*5, 10, 5*5) :: loop(m-1, b._2)
         }
       }
     }
@@ -34,7 +34,7 @@ object Generation{
       }
     }
 
-    SelectWinner(SelectWinner(generation.population.grouped(2).toList).map(_._1).grouped(2).toList)
+    SelectWinner(SelectWinner(SelectWinner(generation.population.grouped(2).toList).map(_._1).grouped(2).toList).map(_._1).grouped(2).toList)
 
 
   }

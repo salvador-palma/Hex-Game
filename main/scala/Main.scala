@@ -20,7 +20,7 @@ object Main{
 
     //val network = NeuralNetwork.Create(l,25,15,25)
 
-    val network = GenerateSuperAI(500)
+    val network = GenerateSuperAI(4000)
     PlaySuperAI(BoardState(BoardState.defineBoard(5), UnionFind(UnionFind.init(5))), network)
 
   }
@@ -79,18 +79,18 @@ object Main{
 
   def GenerateSuperAI(level:Int): NeuralNetwork = {
     println("Generating Super AI... (This process can take some time)")
-    val initialPopulation:Generation = Generation.Start(64,(-1,1),Random(14))
+    val initialPopulation:Generation = Generation.Start(64,(-1,1),Random(14))//14
     def nGen(n:Int, acc:Generation,randomState: RandomState):(Generation,RandomState)={
 
       def nextGen(generation: Generation): (Generation,RandomState) = {
         val s = generation.Select()
         val sum = (s.map(_._2) foldRight 0)(_+_)
         println("Generation " + (level-n) + "/" + level + "  Total moves done: " + sum)
-        if(sum<=90){
+        /*if(sum<=90){
           val w = s.sortBy(_._2)
           val x = w(0)._1
           println(x)
-        }
+        }*/
         val g =generation.Breed(s.map(_._1), randomState)
         g
       }
@@ -100,7 +100,7 @@ object Main{
         case x=> val d = nextGen(acc) ;nGen(x-1, d._1, d._2)
       }
     }
-    val ngen = nGen(level,initialPopulation, Random(20))
+    val ngen = nGen(level,initialPopulation, Random(20))//20
     println("Super AI Level " + level + " successfully generated")
     ngen._1.Strongest
   }

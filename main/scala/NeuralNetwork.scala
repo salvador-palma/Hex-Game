@@ -38,7 +38,7 @@ object NeuralNetwork{
     val d = loop(index._1, parent.size-1)
     val n = index._2.nextInt(10)
 
-    if(n._1 <= 3){
+    if(n._1 <= 2){
 
       val index1 = n._2.nextInt(d.size)
       val index2 = index1._2.nextInt(d.size)
@@ -47,10 +47,10 @@ object NeuralNetwork{
       val (mid,end)  = rest.splitAt(p2)
       val shuffled  = shuffleList(mid, index2._2)
       val c = start:::shuffled._1:::end
-      (Create(c,5*5,15,5*5),shuffled._2)
+      (Create(c,5*5,10,5*5),shuffled._2)
     }
 
-    (Create(d,5*5, 15, 5*5),n._2)
+    (Create(d,5*5, 10, 5*5),n._2)
   }
   def Predict(IHW:List[List[Double]],HB:List[Double],HOW:List[List[Double]],OB:List[Double],boardState: BoardState, player:Cell): (Int,Int) = {
     def ActivateHiddenLayer(weights:List[List[Double]], inputs: List[Double], hiddenB:List[Double]):List[Double]={
