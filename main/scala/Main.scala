@@ -42,9 +42,9 @@ object Main {
           case h :: t => println(s"${Green}Move undone${Reset}"); updatePvC(h, randomState, t)
         }
       case (x, y) =>
-        val playerBoardState: BoardState = boardState.playGameState((y, x), Cells.Blue)
-        val ((cpuX, cpuY), nextRand) = playerBoardState.playCPUGameState(randomState)
-        val CPUBoardState: BoardState = playerBoardState.playGameState((cpuY, cpuX), Cells.Red)
+        val playerBoardState: BoardState = boardState.play((y, x), Cells.Blue)
+        val ((cpuX, cpuY), nextRand) = playerBoardState.playCPU(randomState)
+        val CPUBoardState: BoardState = playerBoardState.play((cpuY, cpuX), Cells.Red)
         CPUBoardState.hasContinuousLine match {
           case Some("P1") => playerBoardState.draw; println(s"${Yellow}Conratulations, You Won!!!${Reset}")
           case Some("P2") => CPUBoardState.draw; println(s"${Yellow}Oh no, you lost to CPU :(${Reset}")
@@ -62,9 +62,9 @@ object Main {
           case h :: t => println(s"${Green}Move undone${Reset}"); updatePvCA(h._1, randomState, t,h._2)
         }
       case (x, y) =>
-        val playerBoardState: BoardState = boardState.playGameState((y, x), Cells.Blue)
-        val ((cpuX, cpuY), nextRand) = playerBoardState.playCPUGameStateAdjacent(randomState, oldCoord)
-        val CPUBoardState: BoardState = playerBoardState.playGameState((cpuY, cpuX), Cells.Red)
+        val playerBoardState: BoardState = boardState.play((y, x), Cells.Blue)
+        val ((cpuX, cpuY), nextRand) = playerBoardState.playCPUAdj(randomState, oldCoord)
+        val CPUBoardState: BoardState = playerBoardState.play((cpuY, cpuX), Cells.Red)
         CPUBoardState.hasContinuousLine match {
           case Some("P1") => playerBoardState.draw; println(s"${Yellow}Conratulations, You Won!!!${Reset}")
           case Some("P2") => CPUBoardState.draw; println(s"${Yellow}Oh no, you lost to CPU :(${Reset}")
@@ -82,7 +82,7 @@ object Main {
           case h :: t => println(s"${Green}Move undone${Reset}"); updatePvP(h, t, Cells.reverse(currentPlayer))
         }
       case (x, y) =>
-        val playerBoardState: BoardState = boardState.playGameState((y, x), currentPlayer)
+        val playerBoardState: BoardState = boardState.play((y, x), currentPlayer)
         val nextPlayer = Cells.reverse(currentPlayer)
         playerBoardState.hasContinuousLine match {
           case Some("P1") => playerBoardState.draw; println(s"${Yellow}Conratulations, Player 1 Won!!!${Reset}")

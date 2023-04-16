@@ -9,11 +9,11 @@ import scala.io.StdIn.readLine
 case class BoardState(board:Board,unionFind: UnionFind){
   def draw():Unit = BoardState.drawBoard(board)
   def drawFold():String = BoardState.drawBoardFold(board)
-  def playGameState(coords:(Int,Int), piece : Cell):BoardState = BoardState.play(this,coords, piece)
+  def play(coords:(Int,Int), piece : Cell):BoardState = BoardState.play(this,coords, piece)
   def getInput():(Int,Int)=BoardState.getInput(board)
-  def playCPUGameStateAdjacent(randomState: RandomState,oldCoord : (Int,Int)):((Int,Int),RandomState)= BoardState.getAdjacentInput(oldCoord,this,randomState)
+  def playCPUAdj(randomState: RandomState,oldCoord : (Int,Int)):((Int,Int),RandomState)= BoardState.getAdjacentInput(oldCoord,this,randomState)
   def hasContinuousLine(): Option[String]=unionFind.percolates(board)
-  def playCPUGameState(randomState: RandomState):((Int,Int),RandomState)= BoardState.getRandomInput(this,randomState)
+  def playCPU(randomState: RandomState):((Int,Int),RandomState)= BoardState.getRandomInput(this,randomState)
   def valid(input:(Int,Int)):Boolean= BoardState.inBounds(Array(input._1 + 1,input._2 + 1),board) && BoardState.isEmptySlot(input,board)
 
 }
