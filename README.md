@@ -1,6 +1,18 @@
 # Hex-Game README file
 ## PPM College Project
 
+## Goal
+The goal of this project is to introduce us to a functional perspective when it comes to programming by developing a Hex-Game clone
+
+## Main Tasks
+
+1. **Pure Random Move:** the functions *playCPU* and *GetRandomInput* return a valid random coordinate and a new RandomState for a possible next use
+2. **Play:** Check documentation below on BoardState's function *play*.
+3. **Visual Representation:** Check documentation below on BoardState's function *draw*.
+4. **Check for a Continuous Line:** The game ends when there is a continuous vertical or horizontal line across the board, check the Documentation below for more information about our solution to this problem.
+5. **Undo'ing a move:** In the Main object, there are some recursive functions (updatePvP, etc...), that are used to make the game flow. Each one of those has an argument *history*, that represents all the BoardStates until then. This makes for an easy implementation of an undo option.
+6. **Developing a TUI:** Once we run our code, a simple TUI menu will be displayed in the terminal with some game modes and other options, for each game mode the user will be capable of defining the board size.
+7. **Developing a GUI:** TODO
 ## Documentation
 
 ### BoardState
@@ -40,7 +52,7 @@ This function returns a new UnionFind where the tile *coordinates* gets connecte
 <br><br>
 * ##### percolates(board)
 This function uses foldRights to check for a possible winner in *board* with a quadratic time complexity.
-<br>Note that it would be possible for a constant time complexity if we had implemented the Quick-Find algorithm, however we agreed that a quadratic time complexity would already be a good enough optimization since the brute-force/naive approach would be an estimate of O(6^n) 
+<br>Note that it would be possible for a constant time complexity if we had implemented the Quick-Find algorithm, however we agreed that a quadratic time complexity would already be a good enough optimization since the brute-force/naive approach would be an estimate of O(6^n)  
 * ##### init(size)
 This companion object function initializes the base data for the Union Find structure
 
