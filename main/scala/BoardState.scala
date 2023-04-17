@@ -61,6 +61,25 @@ object BoardState{
     val u : UnionFind = boardState.unionFind
     BoardState(b.updated(coords._1, b(coords._1).updated(coords._2, player)), u.createUnions((coords._2, coords._1), boardState.board, player))
   }
+  private def playRecursive(boardState: BoardState,coords:(Int,Int), player:Cell):BoardState={
+    def IterCol(board: Board, c:(Int,Int)): Board = {
+      def IterRow(row: List[Cell], ind: Int): List[Cell] = {
+        row match {
+          case Nil => Nil
+          case h :: t if (ind == 0) => player :: IterRow(t, ind - 1)
+          case h :: t => h :: IterRow(t, ind - 1)
+        }
+      }
+      board match{
+        case Nil=>List.empty[List[Cell]]
+        case h::t if(c._1==0)=> IterRow(h,c._2) :: IterCol(t,(c._1 -1, c._2))
+        case h::t =>h :: IterCol(t,(c._1 -1, c._2))
+      }
+    }
+    val u = boardState.unionFind.createUnions((coords._2, coords._1), boardState.board, player)
+    val b = IterCol(boardState.board, coords)
+    BoardState(b,u)
+  }
   private def drawBoard(board: Board): Unit = {
     println(s" ${Blue}*${Reset}  " * board.size)
     printRows()

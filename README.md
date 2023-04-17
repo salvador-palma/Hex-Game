@@ -25,8 +25,8 @@ Unit/String functions that allow for a visual representation of the **Board** vi
 * ##### getInput
 This function returns a valid coordinate chosen by the user
 <br><br>
-* ##### play (coordinates, piece) 
-This function returns a new **BoardState** with *piece* played at *coordinates*
+* ##### play (coordinates, piece) and playRecursive
+This function returns a new **BoardState** with *piece* played at *coordinates*, playRecursive does the same but using recursion
 <br><br>
 * ##### playCPU(randomState)
 This function returns a valid random coordinate 

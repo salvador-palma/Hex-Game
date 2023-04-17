@@ -15,7 +15,6 @@ object Main {
   def main(args: Array[String]): Unit = {
     mainMenu()
   }
-
   @tailrec def mainMenu():Unit= {
     println(s"      ${Bold}${Red}HEX${Reset}-${Blue}GAME!${Reset}\n\n${Bold}     Main  Menu${Reset}\n\n1-Player vs. Player\n2-Player vs. CPU (easy)\n3-Player vs. CPU (medium)\nQ-Quit")
     readLine.trim.toUpperCase match {
@@ -27,6 +26,7 @@ object Main {
     }
     mainMenu
   }
+
 
   @tailrec def GetSize(): Int =
     try { println("Insert the board size: ");readLine.toInt.abs }
