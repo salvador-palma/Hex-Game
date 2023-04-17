@@ -92,14 +92,23 @@ object Main {
     }
   }
 
-  @tailrec def update(players:(Player,Player), boardState: BoardState, randomState: RandomState, history: List[BoardState] = List.empty[BoardState], oldCoord:(Int,Int)): Unit = {
+  @tailrec def update(players:(Player,Player), boardState: BoardState, randomState: RandomState, history: List[BoardState] = List.empty[BoardState], oldCoord:List[(Int,Int)] = List.empty[(Int,Int)]): Unit = {
     boardState.draw
     players._1.getInput(boardState) match{
       case (-1, -2) => println(s"${Yellow}Thank you for playing!${Reset}")
       case (-1, -1) =>
         history match {
           case Nil => println(s"${Red}There are no moves to Undo${Reset}");
-          case h :: t => println(s"${Green}Move undone${Reset}"); update(players, h, randomState, t, oldCoord)
+          case h :: t => println(s"${Green}Move undone${Reset}"); update(players, h, randomState, t, oldCoord.tail)
+        }
+      case (x, y) =>
+        val boardState2 = boardState.play((y,x), players._1.getPiece)
+        boardState2.hasContinuousLine match{
+          case Some("P1") => boardState2.draw; println(s"${Yellow}Conratulations, Player 1 Won!!!${Reset}")
+          case Some("P2") => boardState2.draw; println(s"${Yellow}Conratulations, Player 2 Won!!!${Reset}")
+          case _ => update((players._2,players._1), boardState2,)
+
+
         }
     }
   }
