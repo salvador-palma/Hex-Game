@@ -92,6 +92,18 @@ object Main {
     }
   }
 
+  @tailrec def update(players:(Player,Player), boardState: BoardState, randomState: RandomState, history: List[BoardState] = List.empty[BoardState], oldCoord:(Int,Int)): Unit = {
+    boardState.draw
+    players._1.getInput(boardState) match{
+      case (-1, -2) => println(s"${Yellow}Thank you for playing!${Reset}")
+      case (-1, -1) =>
+        history match {
+          case Nil => println(s"${Red}There are no moves to Undo${Reset}");
+          case h :: t => println(s"${Green}Move undone${Reset}"); update(players, h, randomState, t, oldCoord)
+        }
+    }
+  }
+
 }
 
 
