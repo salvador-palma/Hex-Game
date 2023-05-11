@@ -1,10 +1,10 @@
 package Projeto
-
-import Projeto.Cells.Cell
-import Projeto.Main._
 import scala.annotation.tailrec
 import scala.io.StdIn.readLine
-
+import Projeto.Cells.Cell
+import Projeto.MainTUI._
+import scala.annotation.tailrec
+import scala.io.StdIn.readLine
 
 case class BoardState(board:Board,unionFind: UnionFind){
   def draw():Unit = BoardState.drawBoard(board)
@@ -30,7 +30,7 @@ object BoardState{
         case str => val s = str.split(" ").map(x => x.toInt); if (inBounds(s, board) && isEmptySlot((s(0)-1,s(1)-1), board)) (s(0)-1, s(1)-1) else throw new IllegalArgumentException
       }
     }catch{
-      case _ => println(s"${Main.Red}Invalid Input or Coordinate already marked, try again.${Main.Reset}")
+      case _ => println(s"${MainTUI.Red}Invalid Input or Coordinate already marked, try again.${MainTUI.Reset}")
         getInput(board)
     }
   }
@@ -57,6 +57,7 @@ object BoardState{
 
 
   private def play(boardState: BoardState, coords:(Int,Int), player:Cell):BoardState={
+
     val b : Board = boardState.board
     val u : UnionFind = boardState.unionFind
     BoardState(b.updated(coords._1, b(coords._1).updated(coords._2, player)), u.createUnions((coords._2, coords._1), boardState.board, player))

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="wood" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Game">
+   <children>
+       <Polygon fx:id="borderp1" fill="BLUE" layoutX="-74.0" layoutY="99.0" points="306.0, 199.3753662109375, 172.0, -19.624649047851562, 442.0, -19.624649047851562, 576.0, 199.3753662109375" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+
+       <Polygon fx:id="borderp2" fill="RED" layoutX="-74.0" layoutY="99.0" points="374.0, 89.8753662109375, 306.0, 199.3753662109375, 172.0, -19.624649047851562, 374.0, 89.8753662109375, 442.0, -19.624649047851562, 576.0, 199.3753662109375" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+       <Polygon fx:id="hex31" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="100.0" translateY="44" />
+       <Polygon fx:id="hex41" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="150.0" translateY="44" />
+       <Polygon fx:id="hex51" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="200.0" translateY="44" />
+       <Polygon fx:id="hex21" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="50.0" translateY="44" />
+       <Polygon fx:id="hex11" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="0.0" translateY="44" />
+
+       <Polygon fx:id="hex32" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="125.0" translateY="84.5" />
+       <Polygon fx:id="hex42" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="175.0" translateY="84.5" />
+       <Polygon fx:id="hex52" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="225.0" translateY="84.5" />
+       <Polygon fx:id="hex22" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="75.0" translateY="84.5" />
+       <Polygon fx:id="hex12" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="25.0" translateY="84.5" />
+
+       <Polygon fx:id="hex33" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="150.0" translateY="125.0" />
+       <Polygon fx:id="hex43" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="200.0" translateY="125.0" />
+       <Polygon fx:id="hex53" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="250.0" translateY="125.0" />
+       <Polygon fx:id="hex23" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="100.0" translateY="125.0" />
+       <Polygon fx:id="hex13" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="50.0" translateY="125.0" />
+
+       <Polygon fx:id="hex34" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="175.0" translateY="165.5" />
+       <Polygon fx:id="hex44" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="225.0" translateY="165.5" />
+       <Polygon fx:id="hex54" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="275.0" translateY="165.5" />
+       <Polygon fx:id="hex24" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="125.0" translateY="165.5" />
+       <Polygon fx:id="hex14" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="75.0" translateY="165.5" />
+
+      <Polygon fx:id="hex35" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="200.0" translateY="206" />
+      <Polygon fx:id="hex45" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="250.0" translateY="206" />
+       <Polygon fx:id="hex55" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="300.0" translateY="206" />
+       <Polygon fx:id="hex25" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="150.0" translateY="206" />
+       <Polygon fx:id="hex15" fill="#d4aa70" layoutY="-11.0" onMousePressed="#hexClicked" points="100, 50, 150, 20, 200 ,50, 200, 100 ,150 , 130 ,100 ,100" scaleX="0.5" scaleY="0.5" stroke="#bb7553" strokeWidth="3.0" styleClass="hexbutton" translateX="100.0" translateY="206" />
+      <Button layoutX="312.0" layoutY="319.0" mnemonicParsing="false" onMouseClicked="#undoClicked" prefHeight="64.0" prefWidth="126.0" styleClass="woodbtn" text="Undo">
+         <font>
+            <Font name="DejaVu Sans Mono Bold" size="11.0" />
+         </font></Button>
+      <Button layoutX="175.0" layoutY="319.0" mnemonicParsing="false" onMouseClicked="#menuClicked" prefHeight="64.0" prefWidth="126.0" styleClass="woodbtn" text="Menu">
+         <font>
+            <Font name="DejaVu Sans Mono Bold" size="11.0" />
+         </font></Button>
+      <Label fx:id="undoLabel" layoutX="182.0" layoutY="37.0" opacity="0.0" text="nothing to undo..." textFill="#d4aa70">
+         <font>
+            <Font name="DejaVu Sans Mono Bold" size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

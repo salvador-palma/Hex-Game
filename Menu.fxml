@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="wood" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Menu">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="400.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="600.0">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" focusDistance="-0.06896551724137934" radius="0.603448275862069">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" opacity="0.0" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color opacity="0.3030303120613098" />
+                     </color>
+                  </Stop>
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Rectangle>
+      <GridPane layoutX="200.0" layoutY="155.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="72.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="476.0" minWidth="10.0" prefWidth="457.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="464.0" minWidth="10.0" prefWidth="71.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="224.0" minHeight="10.0" prefHeight="137.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="180.0" minHeight="10.0" prefHeight="101.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="153.0" minHeight="4.0" prefHeight="38.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="154.0" minHeight="0.0" prefHeight="123.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" prefHeight="41.0" prefWidth="223.0" styleClass="title" text="HEX - GAME" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+               <font>
+                  <Font name="DejaVu Sans Bold" size="31.0" />
+               </font></Label>
+            <GridPane layoutY="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="10.0" prefWidth="88.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="74.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="259.0" minWidth="10.0" prefWidth="147.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="259.0" minWidth="10.0" prefWidth="148.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="47.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="47.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="59.0" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="73.0" minHeight="10.0" prefHeight="24.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label styleClass="title" text="P1 Color:" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="DejaVu Sans Mono Bold" size="10.0" />
+                     </font>
+                  </Label>
+                  <Label styleClass="title" text="P2 Color:" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="DejaVu Sans Mono Bold" size="10.0" />
+                     </font>
+                  </Label>
+                  <ColorPicker fx:id="colorpicker1" onHiding="#ColorChangeP1" styleClass="woodpick" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <value>
+                        <Color blue="1.0" />
+                     </value></ColorPicker>
+                  <ColorPicker fx:id="colorpicker2" onHiding="#ColorChangeP2" styleClass="woodpick" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <value>
+                        <Color red="1.0" />
+                     </value></ColorPicker>
+                  <Label alignment="TOP_CENTER" contentDisplay="TOP" prefHeight="20.0" prefWidth="75.0" styleClass="title" text="Settings" textFill="WHITE" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="DejaVu Sans Mono Bold" size="12.0" />
+                     </font></Label>
+                  <RadioButton fx:id="radioButton" mnemonicParsing="false" prefHeight="17.0" prefWidth="118.0" selected="true" styleClass="title" text="P1 Starts" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="player" />
+                     </toggleGroup>
+                     <font>
+                        <Font name="DejaVu Sans Mono Bold" size="11.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="98.0" styleClass="title" text="P2 Starts" textFill="WHITE" toggleGroup="$player" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="DejaVu Sans Mono Bold" size="11.0" />
+                     </font></RadioButton>
+               </children>
+            </GridPane>
+            <GridPane prefHeight="38.0" prefWidth="287.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="207.0" minWidth="10.0" prefWidth="155.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="162.0" minWidth="10.0" prefWidth="162.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="144.0" minWidth="10.0" prefWidth="144.0" />
+              </columnConstraints>
+               <children>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#playPVC" prefHeight="64.0" prefWidth="126.0" text="Player vs CPU&#10;(Easy)" textAlignment="CENTER" textFill="#513010" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="DejaVu Sans Mono Bold" size="11.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="woodbtn" />
+                        <String fx:value="woodbreak" />
+                     </styleClass>
+                  </Button>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#playPVP" prefHeight="64.0" prefWidth="126.0" text="Player vs Player" textAlignment="CENTER" textFill="#513010" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="DejaVu Sans Mono Bold" size="11.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="woodbtn" />
+                        <String fx:value="woodbreak" />
+                     </styleClass>
+                  </Button>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#playPVCA" prefHeight="64.0" prefWidth="126.0" text="Player vs CPU &#10;(Hard)" textAlignment="CENTER" textFill="#513010" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="DejaVu Sans Mono Bold" size="11.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="woodbtn" />
+                        <String fx:value="woodbreak" />
+                     </styleClass>
+                  </Button>
+               </children>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+            </GridPane>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

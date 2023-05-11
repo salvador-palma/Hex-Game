@@ -1,8 +1,6 @@
 package Projeto
-
 import Projeto.Cells.Cell
-import Projeto.Main.Board
-
+import Projeto.MainTUI.Board
 case class UnionFind(field : List[List[Int]]){
   def createUnions(c1:(Int,Int), board: Board, cell:Cell):UnionFind = UnionFind.unions(c1,field, board, cell)
   def percolates(board: Board):Option[String]= UnionFind.percolateCheck(field, board)

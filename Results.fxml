@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="anchor" prefHeight="400.0" prefWidth="600.0" styleClass="wood" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Results">
+   <children>
+      <Label fx:id="title" alignment="CENTER" layoutX="4.0" layoutY="95.0" prefHeight="93.0" prefWidth="591.0" styleClass="title" text="P3 WINS!" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="DejaVu Sans Mono Bold" size="34.0" />
+         </font>
+      </Label>
+      <Button layoutX="159.0" layoutY="217.0" mnemonicParsing="false" onMouseClicked="#menuClicked" prefHeight="64.0" prefWidth="126.0" text="Menu">
+         <font>
+            <Font name="DejaVu Sans Mono Bold" size="12.0" />
+         </font>
+         <styleClass>
+            <String fx:value="woodbtn" />
+            <String fx:value="woodbreak" />
+         </styleClass></Button>
+      <Button layoutX="311.0" layoutY="217.0" mnemonicParsing="false" onMouseClicked="#playClicked" prefHeight="64.0" prefWidth="126.0" text="Play Again">
+         <font>
+            <Font name="DejaVu Sans Mono Bold" size="12.0" />
+         </font>
+         <styleClass>
+            <String fx:value="woodbtn" />
+            <String fx:value="woodbreak" />
+         </styleClass>
+      </Button>
+   </children>
+</AnchorPane>

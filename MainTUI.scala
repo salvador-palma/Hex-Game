@@ -1,9 +1,9 @@
-package Projeto
 
+package Projeto
 import Projeto.Cells.Cell
 import scala.annotation.tailrec
 import scala.io.StdIn._
-object Main {
+object MainTUI {
   type Board = List[List[Cells.Cell]]
   val Red = "\u001b[31m"
   val Blue = "\u001b[34m"
@@ -18,9 +18,9 @@ object Main {
   @tailrec def mainMenu():Unit= {
     println(s"      ${Bold}${Red}HEX${Reset}-${Blue}GAME!${Reset}\n\n${Bold}     Main  Menu${Reset}\n\n1-Player vs. Player\n2-Player vs. CPU (easy)\n3-Player vs. CPU (medium)\nQ-Quit")
     readLine.trim.toUpperCase match {
-      case "1" => updatePvP(BoardState.defineBoard(GetSize))
-      case "2" => updatePvC(BoardState.defineBoard(GetSize), Random(10))
-      case "3" => updatePvCA(BoardState.defineBoard(GetSize), Random(10))
+      case "1" => updatePvP(BoardState.defineBoard(GetSize()))
+      case "2" => updatePvC(BoardState.defineBoard(GetSize()), Random(10))
+      case "3" => updatePvCA(BoardState.defineBoard(GetSize()), Random(10))
       case "Q" => println("\n See you next time!"); return;
       case _ => println("Invalid Option!");
     }
@@ -30,7 +30,7 @@ object Main {
 
   @tailrec def GetSize(): Int =
     try { println("Insert the board size: ");readLine.toInt.abs }
-    catch { case _=> println("Please insert a valid number!");GetSize }
+    catch { case _=> println("Please insert a valid number!");GetSize}
 
   @tailrec def updatePvC(boardState: BoardState, randomState: RandomState, history: List[BoardState] = List.empty[BoardState]) {
     boardState.draw
